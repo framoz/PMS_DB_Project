@@ -1,0 +1,16 @@
+1. UML: os erros que foram indicados no moodle devem ser corrigidos.
+2. Constraints: criação das constraints, meter constraint na generalizacao da segunda entrega
+3. Relatorio: design de relatorio porco, refazer capa, indice, formatacao bem feita.
+4. Modelo relacional: manter o nome dos relacionais assim como o nome do UML, nao inventar novos nomes
+5. Modelo relacional: relacoes de muitos para muitos nao criar classes novas, tem que existir classes novas para cada relacao de muitos para muitos
+6. Dependencias funcioanis: muito texto repetido falando sobre a dependencia funcional de um atributo para os outros
+7. SQL: quatro ficheiros, 1 Create de todas as tabelas, 2 Um ficheiro create com todas as tabelas alteradas pelo chat (tudo igual ao uml e relacional na parte de nomes), 
+8. constraint order_PK ... : "Idade check maior que 0", constraint com nome dá pontos
+9. SQL com erros: ondelete, setnull, oncascade, onupdate, tem que ter tudo isso, vale 10% da nota
+10. Meter em todos os atributos notnull, unique, etc
+11. Create table deve funcionar 2 vezes sem dar erros, depois executar populate (pragma foreign_key = 1? no create)
+12. Populate tem que ter 200 inserts
+13. Todas as tabelas tem que ter tuplos inseridos (scripts de data loading seriam mais faceis, nomes reais, etc)
+14. Um populate nosso e um populate do chat
+15. Link de interacao da conversa
+16. Todos os alunos devem corrigir o que foi passado

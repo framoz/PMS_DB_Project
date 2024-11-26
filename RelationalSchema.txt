@@ -1,0 +1,13 @@
+Person(key:ID, Name, Surname, Gender, Birthdate, Address, Phone, Email)
+
+Employee(key:ID -> Person, IDRole -> Role, WorkSince, ContractEnd, Salary, TaxID)
+
+Role(key:IDRole, Name)
+
+DepartmentTitle(key:IDEmployee -> Employee, IDDepartment -> Department, Name) 
+
+Department(key:IDDepartment, Name, Budget, Phone, Email)
+
+Project(key:IDProject, Name, StartDate, EndDate, IDDepartment -> Department)
+
+

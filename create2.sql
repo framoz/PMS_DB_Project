@@ -112,9 +112,7 @@ CREATE TABLE Person (
                         Name TEXT NOT NULL,
                         Surname TEXT NOT NULL,
                         Gender TEXT CHECK (Gender IN ('Male', 'Female', 'Other')),
-                        Birthdate DATE NOT NULL CHECK(
-                            Birthdate <= DATE('now')
-                            ),
+                        Birthdate DATE NOT NULL,
                         Address TEXT,
                         Phone VARCHAR(20),
                         Email VARCHAR(255) NOT NULL UNIQUE CHECK (Email LIKE '%_@_%._%')
@@ -201,3 +199,4 @@ CREATE TABLE Purchase (
                           FOREIGN KEY (IDPartner) REFERENCES BusinessPartner(IDPartner),
                           FOREIGN KEY (IDCurrency) REFERENCES Currency(IDCurrency)
                       );
+

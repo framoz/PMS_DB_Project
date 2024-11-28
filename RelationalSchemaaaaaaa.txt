@@ -1,0 +1,29 @@
+BusinessPartner(IDPartner, Name, TaxID, Address, IDSale->Sale)
+
+Invoice(IDInvoice, InvoiceData, TotalAmount, Currency, IDCompany->Company,  IDContact->Contact, IDBusinessPartner -> BusinessPartner)
+
+Product(IDProduct, Name, Price, IDDepartment->Department, IDCompany->Company)
+
+ProductSale(IDProduct->Product, IDSale->Sale)
+
+InvoiceSale(IDInvoice -> Invoice, IDSale -> Sale)
+
+Sale(IDSale, Date, Amount, Profit, IDContact->Contact, IDProject -> Project)
+
+Company(IDCompany, Name, Address, E-Mail, Phone)
+
+Contact(IDContact -> Person, JobDescription, IDPartner->BusinessPartner)
+
+InvoiceProduct(IDInvoice->Invoice, IDProduct->Product)
+
+Person(IDPerson, Name, Surname, Gender, Birthdate, Address, Phone, Email)
+
+Employee(IDEmployee -> Person, IDRole -> Role, WorkSince, ContractEnd, Salary, TaxID, IDCompany -> Company)
+
+Role(IDRole, Name)
+
+DepartmentTitle(IDEmployee -> Employee, IDDepartment -> Department, Name) 
+
+Department(IDDepartment, Name, Budget, Phone, Email, IDCompany -> Company)
+
+Project(IDProject, Name, StartDate, EndDate, IDDepartment -> Department, IDCompany -> Company)

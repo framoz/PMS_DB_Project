@@ -330,7 +330,7 @@ INSERT INTO Sale (Date, Amount, IDContact, IDProject) VALUES ('2021-03-22', 4425
 INSERT INTO Sale (Date, Amount, IDContact, IDProject) VALUES ('2020-11-24', 3995.33, 5, 9);
 INSERT INTO Sale (Date, Amount, IDContact, IDProject) VALUES ('2021-09-06', 3326.04, 9, 5);
 INSERT INTO Sale (Date, Amount, IDContact, IDProject) VALUES ('2021-04-17', 619.33, 13, 10);
-INSERT INTO Product (Name, Price, IDDepartment) VALUES ('Black Teacher', 763.14, 7);
+INSERT INTO Product (Name, Price, IDDepartment) VALUES ('Orange Teacher', 763.14, 7);
 INSERT INTO Product (Name, Price, IDDepartment) VALUES ('Language Lose', 191.09, 10);
 INSERT INTO Product (Name, Price, IDDepartment) VALUES ('Bit Truth', 137.99, 7);
 INSERT INTO Product (Name, Price, IDDepartment) VALUES ('Recently Theory', 912.74, 5);

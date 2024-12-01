@@ -1,23 +1,23 @@
 PRAGMA foreign_keys = ON;
 
-DROP TABLE IF EXISTS BusinessPartner;
-DROP TABLE IF EXISTS Invoice;
-DROP TABLE IF EXISTS Product;
+
 DROP TABLE IF EXISTS ProductSale;
 DROP TABLE IF EXISTS InvoiceSale;
+DROP TABLE IF EXISTS Product;
 DROP TABLE IF EXISTS Sale;
-DROP TABLE IF EXISTS Company;
+DROP TABLE IF EXISTS EmployeeDepartment;
+DROP TABLE IF EXISTS Project;
+DROP TABLE IF EXISTS Invoice;
 DROP TABLE IF EXISTS Contact;
 DROP TABLE IF EXISTS Employee;
-DROP TABLE IF EXISTS Person;
-DROP TABLE IF EXISTS Role;
-DROP TABLE IF EXISTS EmployeeDepartment;
-DROP TABLE IF EXISTS Department;
-DROP TABLE IF EXISTS Project;
-DROP TABLE IF EXISTS Currency;
 DROP TABLE IF EXISTS Purchase;
+DROP TABLE IF EXISTS Department;
+DROP TABLE IF EXISTS Currency;
+DROP TABLE IF EXISTS Company;
+DROP TABLE IF EXISTS Role;
+DROP TABLE IF EXISTS BusinessPartner;
+DROP TABLE IF EXISTS Person;
 
--- Table: BusinessPartner
 CREATE TABLE BusinessPartner (
                                  IDPartner INTEGER PRIMARY KEY AUTOINCREMENT,
                                  Name VARCHAR(255) NOT NULL,
@@ -25,7 +25,6 @@ CREATE TABLE BusinessPartner (
                                  Address TEXT
 );
 
--- Table: Invoice
 CREATE TABLE Invoice (
                          IDInvoice INTEGER PRIMARY KEY AUTOINCREMENT ,
                          InvoiceDate DATE NOT NULL,
@@ -38,7 +37,6 @@ CREATE TABLE Invoice (
                          FOREIGN KEY (IDContact) REFERENCES Contact(IDContact)
 );
 
--- Table: Product
 CREATE TABLE Product (
                          IDProduct INTEGER PRIMARY KEY AUTOINCREMENT ,
                          Name VARCHAR(255) NOT NULL,
@@ -47,7 +45,6 @@ CREATE TABLE Product (
                          FOREIGN KEY (IDDepartment) REFERENCES Department(IDDepartment)
 );
 
--- Table: ProductSale (many to many)
 CREATE TABLE ProductSale (
                         IDProduct INTEGER NOT NULL,
                         IDSale INTEGER NOT NULL,
@@ -57,7 +54,6 @@ CREATE TABLE ProductSale (
                         FOREIGN KEY (IDSale) REFERENCES Sale(IDSale)
 );
 
--- Table: InvoiceSale (one to one)
 CREATE TABLE InvoiceSale (
                              IDInvoice INTEGER NOT NULL UNIQUE,
                              IDSale INTEGER NOT NULL UNIQUE,
@@ -66,7 +62,6 @@ CREATE TABLE InvoiceSale (
                              FOREIGN KEY (IDSale) REFERENCES Sale(IDSale)
 );
 
--- Table: Sale
 CREATE TABLE Sale (
                       IDSale INTEGER PRIMARY KEY AUTOINCREMENT ,
                       Date DATE NOT NULL,
@@ -77,7 +72,6 @@ CREATE TABLE Sale (
                       FOREIGN KEY (IDProject) REFERENCES Project(IDProject)
 );
 
--- Table: Company
 CREATE TABLE Company (
                          IDCompany INTEGER PRIMARY KEY AUTOINCREMENT ,
                          Name VARCHAR(255) NOT NULL,
@@ -87,7 +81,6 @@ CREATE TABLE Company (
 );
 
 
--- Table: Person
 CREATE TABLE Person (
                         IDPerson INTEGER PRIMARY KEY,
                         Name TEXT NOT NULL,
@@ -100,7 +93,6 @@ CREATE TABLE Person (
 
 );
 
--- Table: Employee
 CREATE TABLE Employee (
                           IDEmployee INTEGER PRIMARY KEY,
                           IDRole INTEGER NOT NULL,
@@ -110,7 +102,7 @@ CREATE TABLE Employee (
                           TaxID VARCHAR(14) NOT NULL UNIQUE,
                           IDCompany INTEGER NOT NULL,
                           FOREIGN KEY (IDRole) REFERENCES Role(IDRole),
-                          FOREIGN KEY (IDEmployee) REFERENCES Person(IDPerson),
+                          FOREIGN KEY (IDEmployee) REFERENCES Person(IDPerson) ON DELETE CASCADE,
                           FOREIGN KEY (IDCompany) REFERENCES Company(IDCompany)
 );
 
@@ -122,13 +114,11 @@ CREATE TABLE Contact (
                          FOREIGN KEY (IDPartner) REFERENCES BusinessPartner(IDPartner)
 );
 
--- Table: Role
 CREATE TABLE Role (
                       IDRole INTEGER PRIMARY KEY AUTOINCREMENT ,
                       Name VARCHAR(255) NOT NULL
 );
 
--- Table: EmployeeDepartment
 CREATE TABLE EmployeeDepartment (
                                     IDEmployee INTEGER NOT NULL UNIQUE,
                                     IDDepartment INTEGER NOT NULL,
@@ -138,7 +128,6 @@ CREATE TABLE EmployeeDepartment (
                                     FOREIGN KEY (IDDepartment) REFERENCES Department(IDDepartment)
 );
 
--- Table: Department
 CREATE TABLE Department (
                             IDDepartment INTEGER PRIMARY KEY AUTOINCREMENT,
                             Name VARCHAR(100) NOT NULL,
@@ -149,7 +138,6 @@ CREATE TABLE Department (
                             FOREIGN KEY (IDCompany) REFERENCES Company(IDCompany)
 );
 
--- Table: Project
 CREATE TABLE Project (
                          IDProject INTEGER PRIMARY KEY AUTOINCREMENT,
                          Name VARCHAR(100) NOT NULL,
@@ -159,13 +147,11 @@ CREATE TABLE Project (
                          FOREIGN KEY (IDDepartment) REFERENCES Department(IDDepartment)
 );
 
--- Table: Currency
 CREATE TABLE Currency (
                           IDCurrency INTEGER PRIMARY KEY AUTOINCREMENT,
                           CurrencyName VARCHAR(50) NOT NULL UNIQUE
 );
 
--- Table: Purchase
 CREATE TABLE Purchase (
                           IDPurchase INTEGER PRIMARY KEY AUTOINCREMENT,
                           Date DATE NOT NULL,

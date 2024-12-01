@@ -75,16 +75,13 @@ CREATE TABLE ProductSale (
                         FOREIGN KEY (IDSale) REFERENCES Sale(IDSale)
 );
 
--- Table: InvoiceSale (one to one)
 CREATE TABLE InvoiceSale (
-                             IDInvoice INTEGER NOT NULL UNIQUE,
-                             IDSale INTEGER NOT NULL UNIQUE,
-                             PRIMARY KEY (IDInvoice, IDSale),
+                             IDInvoice INTEGER PRIMARY KEY,
+                             IDSale INTEGER NOT NULL UNIQUE,                            
                              FOREIGN KEY (IDInvoice) REFERENCES Invoice(IDInvoice),
                              FOREIGN KEY (IDSale) REFERENCES Sale(IDSale)
 );
 
--- Table: Sale
 CREATE TABLE Sale (
                       IDSale INTEGER PRIMARY KEY AUTOINCREMENT ,
                       Date DATE NOT NULL,
@@ -95,7 +92,6 @@ CREATE TABLE Sale (
                       FOREIGN KEY (IDProject) REFERENCES Project(IDProject)
 );
 
--- Table: Company
 CREATE TABLE Company (
                          IDCompany INTEGER PRIMARY KEY AUTOINCREMENT,
                          Name VARCHAR(255) NOT NULL UNIQUE,
@@ -106,7 +102,6 @@ CREATE TABLE Company (
 );
 
 
--- Table: Person
 CREATE TABLE Person (
                         IDPerson INTEGER PRIMARY KEY,
                         Name TEXT NOT NULL,
@@ -119,9 +114,8 @@ CREATE TABLE Person (
 
 
 );
---INSERT INTO Person (IDPerson, Name, Surname, Gender, Birthdate, Address, Phone, Email)
---VALUES (1, 'Flipe', 'aaaa','Male',  '20241120','aaaaa','2312312312','fefe@ofke.com');
--- Table: Employee
+
+
 CREATE TABLE Employee (
                           IDEmployee INTEGER PRIMARY KEY,
                           IDRole INTEGER NOT NULL,
@@ -130,7 +124,7 @@ CREATE TABLE Employee (
                           Salary DECIMAL NOT NULL CHECK ( Salary > 850 ),
                           TaxID VARCHAR(18) NOT NULL UNIQUE, --18 because in China it has 18 characters
                           IDCompany INTEGER NOT NULL,
-                          FOREIGN KEY (IDRole) REFERENCES Role(IDRole),
+                          FOREIGN KEY (IDRole) REFERENCES Role(IDRole) ON DELETE CASCADE,
                           FOREIGN KEY (IDEmployee) REFERENCES Person(IDPerson),
                           FOREIGN KEY (IDCompany) REFERENCES Company(IDCompany)
 );

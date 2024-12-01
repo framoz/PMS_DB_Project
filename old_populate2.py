@@ -10,8 +10,6 @@ fake = faker.Faker()
 conn = sqlite3.connect('/home/framoz/DataGripProjects/401_DB_Proj/identifier.sqlite')  # Replace with your database file
 cursor = conn.cursor()
 
-output_file = "/home/framoz/Documents/FEUP_2425/1s/BD/Project/populate_final.sql"
-
 # Helper function to generate random dates
 def random_date(start, end):
     delta = end - start
@@ -27,18 +25,12 @@ def get_random_id(table_name, id_column):
         return random.choice(ids)[0]
     else:
         return None
-    
-def write_to_file(statement):
-    with open(output_file, 'a') as f:
-        f.write(statement + ';\n')
-
 
 # Generate and insert data
 def populate_currency():
     currencies = ['USD', 'EUR', 'GBP']
     for currency in currencies:
         cursor.execute("INSERT INTO Currency (CurrencyName) VALUES (?)", (currency,))
-        write_to_file(f"INSERT INTO Currency (CurrencyName) VALUES ('{currency}')")
 
 def populate_company():
     for _ in range(10):  # Add 10 companies
@@ -47,8 +39,6 @@ def populate_company():
         email = fake.company_email()
         phone = fake.phone_number()
         cursor.execute("INSERT INTO Company (Name, Address, Email, Phone) VALUES (?, ?, ?, ?)", (name, address, email, phone))
-        write_to_file(f"INSERT INTO Company (Name, Address, Email, Phone) VALUES ('{name}', '{address}', '{email}', '{phone}')")
-
 
 def populate_business_partner():
     for _ in range(15):  # Add 15 business partners
@@ -56,8 +46,6 @@ def populate_business_partner():
         tax_id = fake.ein()[:14]
         address = fake.address()
         cursor.execute("INSERT INTO BusinessPartner (Name, TaxID, Address) VALUES (?, ?, ?)", (name, tax_id, address))
-        write_to_file(f"INSERT INTO BusinessPartner (Name, TaxID, Address) VALUES ('{name}', '{tax_id}', '{address}')")
-
 
 def populate_department():
     for _ in range(15):  # Add 15 departments
@@ -68,8 +56,6 @@ def populate_department():
         company_id = random.randint(1, 10)
         cursor.execute("INSERT INTO Department (Name, Budget, Phone, Email, IDCompany) VALUES (?, ?, ?, ?, ?)", 
                        (name, budget, phone, email, company_id))
-        write_to_file(f"INSERT INTO Department (Name, Budget, Phone, Email, IDCompany) VALUES ('{name}', {budget}, '{phone}', '{email}', {company_id})")
-
 
 def populate_person():
     for person_id in range(1, 51):  # Add 50 persons
@@ -82,8 +68,6 @@ def populate_person():
         email = fake.email()
         cursor.execute("INSERT INTO Person (IDPerson, Name, Surname, Gender, Birthdate, Address, Phone, Email) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
                        (person_id, name, surname, gender, birthdate, address, phone, email))
-        write_to_file(f"INSERT INTO Person (IDPerson, Name, Surname, Gender, Birthdate, Address, Phone, Email) VALUES ({person_id}, '{name}', '{surname}', '{gender}', '{birthdate}', '{address}', '{phone}', '{email}')")
-
 
 def populate_employee():
     for person_id in range(1, 51):  # Make each person an employee
@@ -95,15 +79,11 @@ def populate_employee():
         company_id = random.randint(1, 10)
         cursor.execute("INSERT INTO Employee (IDEmployee, IDRole, WorkSince, ContractEnd, Salary, TaxID, IDCompany) VALUES (?, ?, ?, ?, ?, ?, ?)", 
                        (person_id, role_id, work_since, contract_end, salary, tax_id, company_id))
-        write_to_file(f"INSERT INTO Employee (IDEmployee, IDRole, WorkSince, ContractEnd, Salary, TaxID, IDCompany) VALUES ({person_id}, {role_id}, '{work_since}', '{contract_end}', {salary}, '{tax_id}', {company_id})")
-
 
 def populate_role():
     roles = ['Manager', 'Engineer', 'Analyst', 'Technician', 'Clerk', 'Supervisor', 'Executive', 'Consultant', 'Director', 'Assistant']
     for role in roles:
         cursor.execute("INSERT INTO Role (Name) VALUES (?)", (role,))
-        write_to_file(f"INSERT INTO Role (Name) VALUES ('{role}')")
-
 
 def populate_project():
     for _ in range(20):  # Add 20 projects
@@ -113,8 +93,6 @@ def populate_project():
         department_id = random.randint(1, 15)
         cursor.execute("INSERT INTO Project (Name, StartDate, EndDate, IDDepartment) VALUES (?, ?, ?, ?)", 
                        (name, start_date, end_date, department_id))
-        write_to_file(f"INSERT INTO Project (Name, StartDate, EndDate, IDDepartment) VALUES ('{name}', '{start_date}', '{end_date}', {department_id})")
-
 
 def populate_sale():
     for _ in range(30):  # Add 30 sales
@@ -124,8 +102,6 @@ def populate_sale():
         project_id = random.randint(1, 20)
         cursor.execute("INSERT INTO Sale (Date, Amount, IDContact, IDProject) VALUES (?, ?, ?, ?)", 
                        (sale_date, amount, contact_id, project_id))
-        write_to_file(f"INSERT INTO Sale (Date, Amount, IDContact, IDProject) VALUES ('{sale_date}', {amount}, {contact_id}, {project_id})")
-
 
 def populate_contact():
     for contact_id in range(1, 16):  # Add 15 contacts
@@ -133,8 +109,6 @@ def populate_contact():
         partner_id = random.randint(1, 15)
         cursor.execute("INSERT INTO Contact (IDContact, JobDescription, IDPartner) VALUES (?, ?, ?)", 
                        (contact_id, job_description, partner_id))
-        write_to_file(f"INSERT INTO Contact (IDContact, JobDescription, IDPartner) VALUES ({contact_id}, '{job_description}', {partner_id})")
-
 
 def populate_product_sale():
     """Populate ProductSale with random data."""
@@ -148,8 +122,6 @@ def populate_product_sale():
                 INSERT INTO ProductSale (IDProduct, IDSale, Quantity)
                 VALUES (?, ?, ?)
             """, (id_product, id_sale, quantity))
-            write_to_file(f"INSERT INTO ProductSale (IDProduct, IDSale, Quantity) VALUES ({id_product}, {id_sale}, {quantity})")
-
 
 def populate_invoice_sale():
     """Populate InvoiceSale with random data."""
@@ -161,8 +133,6 @@ def populate_invoice_sale():
                 INSERT INTO InvoiceSale (IDInvoice, IDSale)
                 VALUES (?, ?)
             """, (id_invoice, id_sale))
-            write_to_file(f"INSERT INTO InvoiceSale (IDInvoice, IDSale) VALUES ({id_invoice}, {id_sale})")
-
 
 def populate_product():
     for _ in range(20):  # Add 20 products
@@ -173,8 +143,6 @@ def populate_product():
         if department_id:
             cursor.execute("INSERT INTO Product (Name, Price, IDDepartment) VALUES (?, ?, ?)", 
                            (name, price, department_id))
-            write_to_file(f"INSERT INTO Product (Name, Price, IDDepartment) VALUES ('{name}', {price}, {department_id})")
-
 def populate_sale():
     for _ in range(30):  # Add 30 sales
         sale_date = random_date(datetime(2020, 1, 1), datetime(2024, 1, 1))
@@ -185,8 +153,6 @@ def populate_sale():
         if contact_id and project_id:
             cursor.execute("INSERT INTO Sale (Date, Amount, IDContact, IDProject) VALUES (?, ?, ?, ?)", 
                            (sale_date, amount, contact_id, project_id))
-            write_to_file(f"INSERT INTO Sale (Date, Amount, IDContact, IDProject) VALUES ('{sale_date}', {amount}, {contact_id}, {project_id})")
-
 # def populate_invoice_sale():
 #     for _ in range(5):  # Add 5 invoice-sale connections
 #         invoice_id = get_random_id("Invoice", "IDInvoice")
@@ -196,7 +162,7 @@ def populate_sale():
 #             cursor.execute("INSERT INTO InvoiceSale (IDInvoice, IDSale) VALUES (?, ?)", 
 #                            (invoice_id, sale_id))
 
-def populate_invoice_sale1():
+def populate_invoice_sale():
     for _ in range(5):  # Add 5 invoice-sale connections
         invoice_id = get_random_id("Invoice", "IDInvoice")
         sale_id = get_random_id("Sale", "IDSale")
@@ -210,8 +176,6 @@ def populate_invoice_sale1():
         if not existing_entry:  # Only insert if no matching pair exists
             cursor.execute("INSERT INTO InvoiceSale (IDInvoice, IDSale) VALUES (?, ?)", 
                            (invoice_id, sale_id))
-            write_to_file(f"INSERT INTO InvoiceSale (IDInvoice, IDSale) VALUES ({invoice_id}, {sale_id})")
-
         else:              
             print(f"Skipping duplicate entry for Invoice {invoice_id} and Sale {sale_id}")
 
@@ -226,8 +190,6 @@ def populate_product_sale():
                 INSERT INTO ProductSale (IDProduct, IDSale, Quantity)
                 VALUES (?, ?, ?)
             """, (product_id, sale_id, quantity))
-            write_to_file(f"INSERT INTO ProductSale (IDProduct, IDSale, Quantity) VALUES ({product_id}, {sale_id}, {quantity})")
-
 
 def populate_employee_department():
     for employee_id in range(17,51):  # Add 15 employee-department connections
@@ -240,8 +202,6 @@ def populate_employee_department():
                 INSERT INTO EmployeeDepartment (IDEmployee, IDDepartment, DepTitle)
                 VALUES (?, ?, ?)
             """, (employee_id, department_id, dep_title))
-            write_to_file(f"INSERT INTO EmployeeDepartment (IDEmployee, IDDepartment, DepTitle) VALUES ({employee_id}, {department_id}, '{dep_title}')")
-
 
 def populate_invoice():
     for _ in range(10):  # Add 10 invoices
@@ -254,8 +214,6 @@ def populate_invoice():
         if currency_id:
             cursor.execute("INSERT INTO Invoice (InvoiceDate, TotalAmount, IDCurrency, IDCompany, IDContact) VALUES (?, ?, ?, ?, ?)",
                            (invoice_date, total_amount, currency_id,company_id, contact_id ))
-            write_to_file(f"INSERT INTO Invoice (InvoiceDate, TotalAmount, IDCurrency, IDCompany, IDContact) VALUES ('{invoice_date}', {total_amount}, {currency_id}, {company_id}, {contact_id})")
-
 
 def populate_employee():
     for employee_id in range(17, 51):
@@ -272,8 +230,6 @@ def populate_employee():
         if employee_id:
             cursor.execute("INSERT INTO Employee(IDEmployee, IDRole, WorkSince, ContractEnd, Salary, TaxID, IDCompany) VALUES (?,?,?,?,?,?,?)",
                            (employee_id, id_role, work_since, contract_end, salary, tax_id, id_company))
-            write_to_file(f"INSERT INTO Employee (IDEmployee, IDRole, WorkSince, ContractEnd, Salary, TaxID, IDCompany) VALUES ({employee_id}, {id_role}, '{work_since}', '{contract_end}', {salary}, '{tax_id}', {id_company})")
-
         
         
 def populate_purchase():
@@ -287,15 +243,9 @@ def populate_purchase():
 
         cursor.execute("INSERT INTO Purchase(Date, Amount, Description, IDCompany, IDPartner, IDCurrency) VALUES (?,?,?,?,?,?)",
                        (date, amount, description, id_company, id_partner, id_currency))
-        write_to_file(f"INSERT INTO Purchase (Date, Amount, Description, IDCompany, IDPartner, IDCurrency) VALUES ('{date}', {amount}, '{description}', {id_company}, {id_partner}, {id_currency})")
-
 
 # Populate all tables
 def populate_tables():
-    with open(output_file, 'w') as f:
-        f.write("-- SQL Script to populate the database\n")
-
-
     populate_person()
     populate_business_partner()
     populate_role()
